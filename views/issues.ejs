@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tracker</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    crossorigin="anonymous">
+
+</head>
+
+<body>
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h1>Tracker</h1>
+      <a href="/logout" class="btn btn-secondary" style="margin-top: 10px;">Logout</a>
+    </div>
+    <div class="jumbotron">
+      <h3>Add New Issue:</h3>
+      <form action="/issues/add" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="issueDescInput">Description</label>
+          <input type="text" class="form-control" name="description" placeholder="Describe the issue ..." required>
+        </div>
+        <div class="form-group">
+          <label for="issueSeverityInput">Severity</label>
+          <select class="form-control" name="severity" required>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="issueAssignedToInput">Assigned To</label>
+          <input type="text" class="form-control" name="assignedTo" placeholder="Enter responsible ..." required>
+        </div>
+        <div class="form-group">
+          <label for="issueImageInput">Attach Image</label>
+          <input type="file" class="form-control" name="image" accept="image/*">
+        </div>
+        <button type="submit" class="btn btn-primary">Add</button>
+      </form>
+    </div>
+  </div>
+  <div class="container">
+    <h1>Issues</h1>
+    <div>
+      <a href="/issues/sort/severity" class="btn btn-primary" style="margin-bottom: 10px;">Sort by Severity</a>
+    </div>
+    <div>
+      <a href="/issues/sort/descending" class="btn btn-primary" style="margin-bottom: 10px;">Sort Descending by
+        Severity</a>
+    </div>
+    <!--<div>
+      <a href="/issues/deleteFirst" class="btn btn-danger" style="margin-bottom: 10px;">Remove Smallest Priority</a>
+    </div>
+    <div>
+      <a href="/issues/deleteLast" class="btn btn-danger" style="margin-bottom: 10px;">Remove Highest Priority</a>
+    </div>-->
+    <form action="/issues/removeByPriority" method="POST" style="margin-bottom: 10px;">
+      <select name="priority" class="form-control" style="width: auto; display: inline;">
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+      <button type="submit" class="btn btn-danger">Remove by Priority</button>
+    </form>
+
+    <div id="issuesList">
+      <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h1>Maintainance Device Tracker</h1>
+          <a href="/logout" class="btn btn-secondary" style="margin-top: 10px;">Logout</a>
+        </div>
+        <div class="jumbotron">
+          <h3>Issues List:</h3>
+          <% if (issues.length===0) { %>
+            <p class="text-muted">No issues found</p>
+            <% } else { %>
+              <% issues.forEach(issue=> { %>
+                <div class="well">
+                  <h6>Issue ID: <%= issue.id %>
+                  </h6>
+                  <p>
+                    <span
+                      class="label label-<%= issue.status === 'Open' ? 'info' : issue.status === 'Finished' ? 'primary' : 'success' %>">
+                      <%= issue.status %>
+                    </span>
+                  </p>
+                  <h3>
+                    <%= issue.description %>
+                  </h3>
+                  <p>
+                    <span class="glyphicon glyphicon-time"></span>
+                    <%= issue.severity %>
+                      <span class="glyphicon glyphicon-user"></span>
+                      <%= issue.assignedTo %>
+                  </p>
+                  <% if (issue.image) { %>
+                    <img src="<%= issue.image %>" style="width: 100px; margin-top: 10px;">
+                    <% } %>
+                      <% if (issue.status==='Open' ) { %>
+                        <a href="/issues/close/<%= issue.id %>" class="btn btn-warning">Close</a>
+                        <a href="/issues/finish/<%= issue.id %>" class="btn btn-primary">Finish</a>
+                        <% } else if (issue.status==='Closed' ) { %>
+                          <a href="/issues/reopen/<%= issue.id %>" class="btn btn-success">Reopen</a>
+                          <% } %>
+                            <a href="/issues/delete/<%= issue.id %>" class="btn btn-danger">Delete</a>
+                </div>
+                <% }) %>
+                  <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
+</body>
+
+</html>
