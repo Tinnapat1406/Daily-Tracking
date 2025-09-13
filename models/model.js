@@ -21,7 +21,6 @@ class IssuesModel {
     fs.writeFileSync(issuesFilePath, JSON.stringify(this.issues, null, 2));
   }
 
-
   getAllIssues() {
     const result = this.issues;
     return result;
