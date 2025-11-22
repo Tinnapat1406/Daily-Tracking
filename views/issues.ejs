@@ -12,18 +12,23 @@
 </head>
 
 <body>
+
   <div class="container">
+
     <div style="display: flex; justify-content: space-between; align-items: center;">
       <h1>Tracker</h1>
       <a href="/logout" class="btn btn-secondary" style="margin-top: 10px;">Logout</a>
     </div>
+
     <div class="jumbotron">
       <h3>Add New Issue:</h3>
       <form action="/issues/add" method="POST" enctype="multipart/form-data">
+
         <div class="form-group">
           <label for="issueDescInput">Description</label>
           <input type="text" class="form-control" name="description" placeholder="Describe the issue ..." required>
         </div>
+
         <div class="form-group">
           <label for="issueSeverityInput">Severity</label>
           <select class="form-control" name="severity" required>
@@ -32,33 +37,46 @@
             <option value="High">High</option>
           </select>
         </div>
+
+
         <div class="form-group">
           <label for="issueAssignedToInput">Assigned To</label>
           <input type="text" class="form-control" name="assignedTo" placeholder="Enter responsible ..." required>
         </div>
+
+
         <div class="form-group">
           <label for="issueImageInput">Attach Image</label>
           <input type="file" class="form-control" name="image" accept="image/*">
         </div>
+
+
         <button type="submit" class="btn btn-primary">Add</button>
+
       </form>
     </div>
   </div>
+
   <div class="container">
     <h1>Issues</h1>
+
     <div>
       <a href="/issues/sort/severity" class="btn btn-primary" style="margin-bottom: 10px;">Sort by Severity</a>
     </div>
+
     <div>
       <a href="/issues/sort/descending" class="btn btn-primary" style="margin-bottom: 10px;">Sort Descending by
         Severity</a>
     </div>
+
     <!--<div>
       <a href="/issues/deleteFirst" class="btn btn-danger" style="margin-bottom: 10px;">Remove Smallest Priority</a>
     </div>
     <div>
       <a href="/issues/deleteLast" class="btn btn-danger" style="margin-bottom: 10px;">Remove Highest Priority</a>
     </div>-->
+
+    
     <form action="/issues/removeByPriority" method="POST" style="margin-bottom: 10px;">
       <select name="priority" class="form-control" style="width: auto; display: inline;">
         <option value="High">High</option>

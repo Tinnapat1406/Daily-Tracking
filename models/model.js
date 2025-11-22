@@ -28,14 +28,19 @@ class IssuesModel {
 
 
   addIssue(issue) {
-    const severityOrder = { High: 1, Medium: 2, Low: 3 };
+    const severityOrder = { 
+      High: 1, 
+      Medium: 2, 
+      Low: 3 
+    };
     const index = this.issues.findIndex(
       existingIssue => severityOrder[issue.severity] < severityOrder[existingIssue.severity]
     );
 
     if (index === -1) {
       this.issues.push(issue); 
-    } else {
+    } 
+    else {
       this.issues.splice(index, 0, issue); 
     }
 
@@ -50,8 +55,8 @@ class IssuesModel {
 
 
   updateIssueStatus(id, status) {
-    this.issues = this.issues.map(issue =>
-      issue.id === id ? { ...issue, status } : issue
+    this.issues = this.issues.map(
+      issue =>issue.id === id ? { ...issue, status } : issue
     );
     this.saveIssues();
   }
@@ -81,28 +86,37 @@ class IssuesModel {
 
  
   finishIssueById(id) {
-    this.issues = this.issues.map(issue =>
-      issue.id === id ? { ...issue, status: 'Finished' } : issue
+    this.issues = this.issues.map(
+      issue =>issue.id === id ? { ...issue, status: 'Finished' } : issue
     );
     this.saveIssues();
   }
 
 
   sortBySeverity() {
-    const severityOrder = { High: 1, Medium: 2, Low: 3 };
+    const severityOrder = { 
+      High: 1, 
+      Medium: 2, 
+      Low: 3 };
     this.issues.sort((a, b) => severityOrder[a.severity] - severityOrder[b.severity]);
     return this.issues;
   }
 
 
   sortDescendingByPriority() {
-    const severityOrder = { High: 1, Medium: 2, Low: 3 };
+    const severityOrder = { 
+      High: 1,
+      Medium: 2, 
+      Low: 3 };
     this.issues.sort((a, b) => severityOrder[b.severity] - severityOrder[a.severity]);
   }
 
   
   removeTaskByPriority(priority) {
-    const severityOrder = { High: 1, Medium: 2, Low: 3 };
+    const severityOrder = { 
+      High: 1, 
+      Medium: 2, 
+      Low: 3 };
     const index = this.issues.findIndex(issue => severityOrder[issue.severity] === severityOrder[priority]);
 
     if (index !== -1) {
