@@ -1,5 +1,4 @@
 const IssuesModel = require('../models/issuesModel');
-
 const issuesModel = new IssuesModel();
 issuesModel.loadIssues(); 
 

@@ -1,4 +1,5 @@
 const express = require('express');
+
 const path = require('path');
 const session = require('express-session');
 const multer = require('multer');
@@ -6,6 +7,7 @@ const authController = require('./controllers/authController');
 const issuesController = require('./controllers/issuesController');
 
 const upload = multer({ dest: path.join(__dirname, 'uploads/') });
+
 
 const app = express();
 app.set('view engine', 'ejs');
