@@ -21,11 +21,11 @@ class Users {
         this.name = this.users.filter(user => user.name !==name);
     }
 
-    saveUsers(){
+    saveUsers(filePath){
         fs.writeFileSync(filePath,JSON.stringify(this.users,null,2));
     }
 
-    loadUsers(){
+    loadUsers(filePath){
         if(fs.existsSync(filePath)){
             const data = fs.readFileSync(filePath,'utf-8');
             this.users = JSON.parse(data);
