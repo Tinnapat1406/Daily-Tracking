@@ -1,9 +1,9 @@
 const fs = require('fs');
 
-class Users {
-    constructor(){
-        this.user = [];
-    }
+class UserModel {
+  constructor() {
+    this.users = [];
+  }
 
     AddUsers(user) {
         this.users.push(user);
@@ -18,14 +18,14 @@ class Users {
     }
 
     deleteUserByName(name){
-        this.name = this.users.filter(user => user.name !==name);
+        this.users = this.users.filter(user => user.name !== name);
     }
 
-    saveUsers(filePath){
+    saveUsersToFile(filePath){
         fs.writeFileSync(filePath,JSON.stringify(this.users,null,2));
     }
 
-    loadUsers(filePath){
+    loadUsersFromFile(filePath){
         if(fs.existsSync(filePath)){
             const data = fs.readFileSync(filePath,'utf-8');
             this.users = JSON.parse(data);
@@ -36,5 +36,5 @@ class Users {
 
     
 }
-module.exports = Users;
+module.exports = UserModel;
 

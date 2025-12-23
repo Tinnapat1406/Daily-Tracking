@@ -1,6 +1,5 @@
-const encryption = require('../util.js');
-
-util = new encrytion();
+const Encryption = require('../util.js');
+const util = new Encryption();
 
 const cremential = {
     name : "admin",
@@ -19,7 +18,7 @@ exports.authenticate = (req,res,next) => {
 
 exports.logout  = (req,res) => {
   req.session.destroy(() => {
-    res.session.redirect('/login');
+    res.redirect('/login');
   });
 };
 
@@ -33,13 +32,13 @@ exports.login = (req,res) => {
   const UsersModel = new Users();
 
   try{
-    UsersModel.loadUsers('../users.json');
+    UsersModel.loadUsersFromFile('./users.json');
 
     const user = UsersModel.findUserByName(name);
     if(!user){
-      const error = 'Invalid Username: ${name}';
+      const error = `Invalid Username: ${name}`;
       console.log(error);
-      res.redirect('login',{error});
+      res.render('login',{error});
       return;
     }
 
@@ -47,7 +46,7 @@ exports.login = (req,res) => {
     const encryptionPassword = util.encrypt(password);
     if(user.password === encryptionPassword){
       req.session.users = {name : user.name };
-      console.log("${name} Log-in");
+      console.log(`${name} Log-in`);
       res.redirect('/issues');
       return;
     }
@@ -74,20 +73,20 @@ exports.register = async (req,res) => {
   const UsersModel = new Users();
 
   try{
-    UsersModel.loadUsers('../users.json');
+    UsersModel.loadUsersFromFile('./users.json');
     const existUser = UsersModel.findUserByName(name);
 
     if(existUser){
-      const error = 'Username ${name} already exists.';
+      const error = `Username ${name} already exists.`;
       console.log(error);
       res.render('register',{error});
       return;
     }
     else{
       const encryptionPassword = util.encrypt(password);
-      UsersModel.AddUsers({username , password : encryptionPassword});
-      UsersModel.saveUsers("../users.json");
-      console.log("Username ${name} registered successfully.");
+      UsersModel.AddUsers({name , password : encryptionPassword});
+      UsersModel.saveUsersToFile("./users.json");
+      console.log(`Username ${name} registered successfully.`);
       res.redirect('/login');
     }
 

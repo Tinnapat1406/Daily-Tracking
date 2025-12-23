@@ -10,14 +10,27 @@ class IssuesModel {
 
   loadIssues() {
     if (fs.existsSync(issuesFilePath)) {
-      const data = fs.readFileSync(issuesFilePath);
-      this.issues = JSON.parse(data);
+      const data = fs.readFileSync(issuesFilePath, 'utf-8').trim();
+      if (!data) {
+        this.issues = [];
+        return;
+      }
+      try {
+        this.issues = JSON.parse(data);
+      } catch (err) {
+        console.error('Failed resetting to empty list:', err.message);
+        this.issues = [];
+      }
     } else {
       this.issues = [];
     }
   }
 
   saveIssues() {
+    const dir = path.dirname(issuesFilePath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
     fs.writeFileSync(issuesFilePath, JSON.stringify(this.issues, null, 2));
   }
 
